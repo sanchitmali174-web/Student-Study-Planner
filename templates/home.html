@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Student Study Planner{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+        <span class="hero-badge">📚 Smart Study Planner</span>
+
+        <h1>
+            Plan Your Study.<br>
+            <span>Achieve Your Goals.</span>
+        </h1>
+
+        <p>
+            Organize your daily tasks, manage priorities,
+            track your progress, and stay on top of your studies.
+        </p>
+
+        <div class="hero-actions">
+            <a href="{{ url_for('register') }}" class="btn">
+                Get Started →
+            </a>
+
+            <a href="{{ url_for('login') }}" class="btn secondary-btn">
+                Login
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="study-card">
+            <div class="study-card-header">
+                <span>Today's Study</span>
+                <span>📅</span>
+            </div>
+
+            <div class="study-line">
+                <span class="dot blue-dot"></span>
+                Python Practice
+                <span class="mini-check">✓</span>
+            </div>
+
+            <div class="study-line">
+                <span class="dot orange-dot"></span>
+                Database Revision
+                <span class="mini-check">✓</span>
+            </div>
+
+            <div class="study-line">
+                <span class="dot green-dot"></span>
+                Project Work
+                <span class="mini-check">✓</span>
+            </div>
+
+            <div class="mini-progress">
+                <div class="mini-progress-bar"></div>
+            </div>
+
+            <small>Stay consistent and keep learning 🚀</small>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="section-heading">
+        <span class="muted">Everything you need</span>
+        <h2>Study Smarter, Not Harder</h2>
+    </div>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3>Manage Tasks</h3>
+            <p>Add and organize all your study tasks in one simple place.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Set Priorities</h3>
+            <p>Mark tasks as High, Medium, or Low priority.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Track Progress</h3>
+            <p>See completed and pending tasks and monitor your progress.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📚</div>
+            <h3>Organize Subjects</h3>
+            <p>Keep tasks organized subject-wise for better planning.</p>
+        </div>
+    </div>
+</section>
+
+<section class="home-cta">
+    <h2>Ready to organize your studies?</h2>
+    <p>Create your account and start planning your tasks today.</p>
+
+    <a href="{{ url_for('register') }}" class="btn">
+        Create Free Account →
+    </a>
+</section>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Add Task - Student Planner{% endblock %}
+
+{% block content %}
+
+<div class="form-page">
+    <div class="form-card">
+
+        <div class="form-header">
+            <span class="form-icon">📝</span>
+            <h1>Add New Task</h1>
+            <p>Create a task and keep your study plan organized.</p>
+        </div>
+
+        <form method="POST" class="task-form">
+
+            <div class="form-group">
+                <label for="title">Task Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="e.g. Complete Python assignment"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    placeholder="e.g. Python"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="task_date">Task Date</label>
+                <input
+                    type="date"
+                    id="task_date"
+                    name="task_date"
+                    value="{{ today }}"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority" required>
+                    <option value="High">High</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('dashboard') }}" class="btn secondary-btn">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn">
+                    Add Task →
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

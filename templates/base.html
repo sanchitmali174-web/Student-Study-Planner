@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Planner{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+{% if session.get('user_id') %}
+
+<header class="navbar">
+    <a href="{{ url_for('dashboard') }}" class="brand">
+        <span class="brand-icon">🎓</span>
+        <span>Student Planner</span>
+    </a>
+
+    <nav class="nav-links">
+        <a href="{{ url_for('dashboard') }}"
+           class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('add_task') }}"
+           class="{% if request.endpoint == 'add_task' %}active{% endif %}">
+            Add Task
+        </a>
+
+        <a href="{{ url_for('tasks_page') }}"
+           class="{% if request.endpoint == 'tasks_page' %}active{% endif %}">
+            All Tasks
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            Logout
+        </a>
+    </nav>
+</header>
+
+{% else %}
+
+<header class="navbar">
+    <a href="{{ url_for('home') }}" class="brand">
+        <span class="brand-icon">🎓</span>
+        <span>Student Planner</span>
+    </a>
+
+    <nav class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}" class="nav-register">Register</a>
+    </nav>
+</header>
+
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-wrap">
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

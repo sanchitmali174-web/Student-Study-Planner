@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Logged Out - Student Planner{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">👋</div>
+
+        <h1>You’re Logged Out</h1>
+
+        <p>
+            You have successfully logged out of your account.
+        </p>
+
+        <div class="form-actions logout-actions">
+
+            <a href="{{ url_for('login') }}" class="btn">
+                Login Again
+            </a>
+
+            <a href="{{ url_for('home') }}" class="btn secondary-btn">
+                Go to Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

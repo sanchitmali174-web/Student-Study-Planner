@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}My Tasks - Student Planner{% endblock %}
+
+{% block content %}
+
+<div class="topbar">
+    <div>
+        <span class="muted">Student Study Planner</span>
+        <h1>My Tasks 📚</h1>
+        <p class="muted">View and manage all your study tasks.</p>
+    </div>
+
+    <a href="{{ url_for('add_task') }}" class="btn">
+        ＋ Add New Task
+    </a>
+</div>
+
+<section class="panel tasks-panel">
+
+    <div class="panel-head">
+        <div>
+            <h2>All Tasks</h2>
+            <p class="muted">Your complete study task list</p>
+        </div>
+    </div>
+
+    {% if tasks %}
+
+    <div class="task-list">
+
+        {% for task in tasks %}
+
+        <div class="task-row {% if task['status'] == 'Completed' %}is-complete{% endif %}">
+
+            <div class="check-box {% if task['status'] == 'Completed' %}checked{% endif %}">
+                {% if task['status'] == 'Completed' %}✓{% endif %}
+            </div>
+
+            <div class="task-info">
+                <h3>{{ task['title'] }}</h3>
+                <p>📚 {{ task['subject'] }} &nbsp; • &nbsp; 📅 {{ task['task_date'] }}</p>
+            </div>
+
+            <span class="priority {{ task['priority']|lower }}">
+                {{ task['priority'] }}
+            </span>
+
+            <span class="status {{ task['status']|lower }}">
+                {{ task['status'] }}
+            </span>
+
+            <div class="actions">
+
+                <form method="POST"
+                      action="{{ url_for('complete_task', task_id=task['id']) }}">
+                    <button type="submit"
+                            class="icon-btn complete"
+                            title="Complete / Pending">
+                        ✓
+                    </button>
+                </form>
+
+                <a href="{{ url_for('edit_task', task_id=task['id']) }}"
+                   class="icon-btn edit"
+                   title="Edit Task">
+                    ✎
+                </a>
+
+                <form method="POST"
+                      action="{{ url_for('delete_task', task_id=task['id']) }}"
+                      onsubmit="return confirmDelete();">
+                    <button type="submit"
+                            class="icon-btn delete"
+                            title="Delete Task">
+                        ×
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+        <div>📝</div>
+        <h3>No tasks found</h3>
+        <p>You haven't added any study tasks yet.</p>
+
+        <a href="{{ url_for('add_task') }}" class="btn">
+            ＋ Add Your First Task
+        </a>
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

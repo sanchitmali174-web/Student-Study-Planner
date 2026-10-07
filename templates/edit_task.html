@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Task - Student Planner{% endblock %}
+
+{% block content %}
+
+<div class="form-page">
+    <div class="form-card">
+
+        <div class="form-header">
+            <span class="form-icon">✏️</span>
+            <h1>Edit Task</h1>
+            <p>Update the details of your study task.</p>
+        </div>
+
+        <form method="POST" class="task-form">
+
+            <div class="form-group">
+                <label for="title">Task Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value="{{ task['title'] }}"
+                    placeholder="Enter task title"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value="{{ task['subject'] }}"
+                    placeholder="e.g. Python, Java, Mathematics"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="task_date">Task Date</label>
+                <input
+                    type="date"
+                    id="task_date"
+                    name="task_date"
+                    value="{{ task['task_date'] }}"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority" required>
+                    <option value="High" {% if task['priority'] == 'High' %}selected{% endif %}>High</option>
+                    <option value="Medium" {% if task['priority'] == 'Medium' %}selected{% endif %}>Medium</option>
+                    <option value="Low" {% if task['priority'] == 'Low' %}selected{% endif %}>Low</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('tasks_page') }}" class="btn secondary-btn">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn">
+                    Save Changes ✓
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

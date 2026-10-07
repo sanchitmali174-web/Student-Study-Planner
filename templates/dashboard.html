@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Student Planner{% endblock %}
+
+{% block content %}
+
+<div class="topbar">
+    <div>
+        <span class="muted">Student Study Planner</span>
+        <h1>Welcome, {{ session['user_name'] }}! 👋</h1>
+        <p class="muted">Here is your study progress.</p>
+    </div>
+
+    <a href="{{ url_for('add_task') }}" class="btn">
+        ＋ Add New Task
+    </a>
+</div>
+
+<div class="stats-grid">
+
+    <div class="stat-card blue">
+        <span>Total Tasks</span>
+        <strong>{{ total }}</strong>
+        <small>All your tasks</small>
+    </div>
+
+    <div class="stat-card orange">
+        <span>Pending Tasks</span>
+        <strong>{{ pending }}</strong>
+        <small>Need your attention</small>
+    </div>
+
+    <div class="stat-card green">
+        <span>Completed Tasks</span>
+        <strong>{{ completed }}</strong>
+        <small>Great work!</small>
+    </div>
+
+</div>
+
+{% if total > 0 %}
+
+<div class="today-progress">
+
+    <div class="progress-header">
+        <div>
+            <h2>Today's Progress</h2>
+
+            <p class="muted">
+                {% if today_total > 0 %}
+                    Keep going and complete your tasks for today.
+                {% else %}
+                    You have tasks in your planner, but none are scheduled for today.
+                {% endif %}
+            </p>
+        </div>
+
+        <strong>{{ today_progress }}%</strong>
+    </div>
+
+    <progress
+        class="study-progress"
+        value="{{ today_progress }}"
+        max="100">
+    </progress>
+
+    <p class="muted progress-text">
+        {% if today_total > 0 %}
+            {{ today_completed }} of {{ today_total }} tasks completed today.
+        {% else %}
+            No tasks scheduled for today.
+        {% endif %}
+    </p>
+
+</div>
+
+{% endif %}
+
+<div class="dashboard-grid">
+
+    <section class="panel large">
+
+        <div class="panel-head">
+            <div>
+                <h2>My Tasks</h2>
+                <p class="muted">Manage your study tasks</p>
+            </div>
+
+            <a href="{{ url_for('tasks_page') }}" class="text-link">
+                View All
+            </a>
+        </div>
+
+        {% if tasks %}
+
+        <div class="task-list">
+
+            {% for task in tasks %}
+
+            <div class="task-row {% if task['status'] == 'Completed' %}is-complete{% endif %}">
+
+                <div class="check-box {% if task['status'] == 'Completed' %}checked{% endif %}">
+                    {% if task['status'] == 'Completed' %}✓{% endif %}
+                </div>
+
+                <div class="task-info">
+                    <h3>{{ task['title'] }}</h3>
+                    <p>{{ task['subject'] }} • {{ task['task_date'] }}</p>
+                </div>
+
+                <span class="priority {{ task['priority']|lower }}">
+                    {{ task['priority'] }}
+                </span>
+
+                <span class="status {{ task['status']|lower }}">
+                    {{ task['status'] }}
+                </span>
+
+                <div class="actions">
+
+                    <form method="POST"
+                          action="{{ url_for('complete_task', task_id=task['id']) }}">
+                        <button type="submit"
+                                class="icon-btn complete"
+                                title="Complete / Pending">
+                            ✓
+                        </button>
+                    </form>
+
+                    <a href="{{ url_for('edit_task', task_id=task['id']) }}"
+                       class="icon-btn edit"
+                       title="Edit Task">
+                        ✎
+                    </a>
+
+                    <form method="POST"
+                          action="{{ url_for('delete_task', task_id=task['id']) }}"
+                          onsubmit="return confirmDelete();">
+                        <button type="submit"
+                                class="icon-btn delete"
+                                title="Delete Task">
+                            ×
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+            <div>📝</div>
+            <h3>No tasks yet</h3>
+            <p>Add your first study task to start planning.</p>
+
+            <a href="{{ url_for('add_task') }}" class="btn">
+                ＋ Add Task
+            </a>
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    <aside class="side-panels">
+
+        <section class="panel">
+
+            <div class="panel-head">
+                <h2>Upcoming Tasks</h2>
+            </div>
+
+            {% if upcoming %}
+
+                {% for task in upcoming %}
+
+                <div class="upcoming-item">
+
+                    <div class="date-box">
+                        {{ task['task_date'][8:10] }}
+                    </div>
+
+                    <div>
+                        <strong>{{ task['title'] }}</strong>
+                        <small>{{ task['subject'] }}</small>
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="muted">No upcoming tasks.</p>
+
+            {% endif %}
+
+        </section>
+
+        <section class="panel">
+
+            <div class="panel-head">
+                <h2>Subjects</h2>
+            </div>
+
+            {% if subjects %}
+
+                {% for item in subjects %}
+
+                <div class="subject-item">
+                    <span>{{ item['subject'] }}</span>
+                    <b>{{ item['count'] }}</b>
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="muted">Subjects will appear here.</p>
+
+            {% endif %}
+
+        </section>
+
+    </aside>
+
+</div>
+
+{% endblock %}
